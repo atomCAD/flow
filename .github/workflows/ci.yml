@@ -47,3 +47,24 @@ jobs:
 
     - name: Check documentation
       run: RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
+
+  book:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup mdBook
+      uses: peaceiris/actions-mdbook@v2
+      with:
+        mdbook-version: 'latest'
+
+    - name: Build mdBook
+      run: |
+        cd book
+        mdbook build
+
+    - name: Test mdBook
+      run: |
+        cd book
+        mdbook test

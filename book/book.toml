@@ -1,0 +1,6 @@
+[book]
+authors = ["Machine Phase Systems <hello@machinephase.systems>"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rivulet: Workflow Tools for Scientific Data Pipelines"
