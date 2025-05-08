@@ -1,0 +1,226 @@
+# Cursor Configuration
+# This file contains development guidelines and preferences for the project
+
+# Code Style
+style:
+  # Language-specific settings
+  rust:
+    # Rust-specific formatting preferences
+    max_line_length: 100
+    use_tabs: false
+    tab_width: 4
+    indent_style: spaces
+
+    # Formatting requirements
+    formatting:
+      - "Run rustfmt on all code before committing"
+      - "No trailing whitespace at end of lines"
+      - "Files must end with '// EOF' comment"
+      - "Files must include license header from src/main.rs"
+      - "Use consistent line endings (LF)"
+      - "No empty lines at end of file (except for EOF comment)"
+
+  # General code style preferences
+  general:
+    # Documentation preferences
+    require_doc_comments: true
+    doc_comment_style: "///"
+
+    # Naming conventions
+    variable_case: snake_case
+    constant_case: SCREAMING_SNAKE_CASE
+    type_case: PascalCase
+
+    # Code organization
+    max_file_length: 1000
+    max_function_length: 50
+    max_parameters: 5
+
+# Development Guidelines
+guidelines:
+  # Code quality
+  - Write clear, self-documenting code
+  - Use meaningful variable and function names
+  - Keep functions small and focused
+  - Add appropriate error handling
+  - Write tests for new functionality
+
+  # Documentation
+  - Document public APIs thoroughly
+  - Document internal APIs and code blocks as well, but without getting in the way
+  - Include examples in documentation
+  - Keep documentation up to date
+  - Ensure documentation describes the current state of the code only -- don't reference previous versions
+  - Use markdown formatting in doc comments
+  - Avoid transitional comments that explain changes from previous versions
+  - Comments should describe what the code is, not how it evolved
+
+  # Testing
+  - Follow Test-Driven Development (TDD) methodology:
+    - Write tests first, before implementing features
+    - Start with the simplest possible test case
+    - Add tests incrementally as features grow
+    - Run tests after each small change
+    - Ensure tests fail for the right reasons before implementing
+  - Include test cases for edge conditions
+  - Maintain good test coverage
+  - Use descriptive test names
+  - Prefer using `assert!(matches!(...))` for pattern matching assertions:
+    - Example: `assert!(matches!(value, Pattern(x) if x == expected))`
+    - This provides cleaner and more type-safe assertions than extracting values manually
+    - Especially useful for checking enum variants with specific field values
+  - Test against safe error types, not error messages:
+    - Avoid testing error message strings, which can change
+    - Test against error enum variants and their contents directly
+    - Example: `assert!(matches!(error.kind, ErrorKind::InvalidValue(x) if x == input))`
+    - This provides more reliable tests that won't break with message wording changes
+  - Don't test underlying Rust features:
+    - Avoid writing tests for Rust language features or standard library behavior
+    - Focus tests on your codebase's behavior, not compiler guarantees
+    - For example, don't test that Copy traits work as expected or that basic enum matching works
+
+  # Error Handling
+  - Use appropriate error types
+  - Provide helpful error messages
+  - Handle edge cases gracefully
+  - Log errors appropriately
+
+# Development Methodology
+methodology:
+  # Test-Driven Development
+  tdd:
+    workflow:
+      - "Write a failing test for the smallest possible feature"
+      - "Make minimal changes to get the test to pass"
+      - "Refactor if needed, ensuring tests still pass"
+      - "Repeat for next feature increment"
+
+    principles:
+      - "Start with the simplest possible implementation"
+      - "Add complexity only when required by tests"
+      - "Keep tests focused and specific"
+      - "Maintain a working codebase at all times"
+
+  # Incremental Development
+  incremental:
+    principles:
+      - "Make one change at a time"
+      - "Fix one error at a time"
+      - "Ensure code compiles after each change"
+      - "Run tests after each change"
+      - "Commit working changes frequently"
+
+    refactoring:
+      - "Prefer small, focused refactorings"
+      - "Only perform large refactorings when explicitly directed"
+      - "Keep refactoring steps independent and testable"
+      - "Ensure tests pass after each refactoring step"
+
+# Response Guidelines
+response:
+  # Proactive problem solving
+  proactive_problem_solving:
+    - "When running check tools like ./check.sh, immediately address any issues found without waiting for further instructions"
+    - "Prioritize fixing linter errors, test failures, and other code quality issues as soon as they're discovered"
+    - "Take initiative to fix obvious issues rather than asking for further clarification"
+    - "If multiple problems exist, fix them in a systematic order and explain your approach"
+
+  # Error handling hierarchy
+  error_handling_priority:
+    - "Linter errors should be fixed immediately upon discovery"
+    - "Test failures should be addressed next"
+    - "Documentation issues should be addressed after code is functional"
+    - "Performance optimizations should only be considered after correctness is assured"
+
+  # Common lint fixes
+  common_lint_fixes:
+    - "Replace inherent to_string() methods with proper Display implementations"
+    - "Use inline format arguments when possible (e.g., `format!(\"{value}\")` instead of `format!(\"{}\", value)`)"
+    - "Remove unnecessary to_string() calls in format! arguments"
+    - "Fix clippy warnings according to suggested fixes"
+
+  # Command output interpretation
+  command_interpretation:
+    - "When running diagnostic commands, analyze output without waiting for instructions"
+    - "Treat command outputs as actionable information to be addressed immediately"
+    - "For test/linting commands, fix issues or explain why they can't be fixed"
+    - "For informational commands, incorporate output into your understanding and response"
+
+# Project-specific Rules
+project:
+  # File organization
+  source_directory: "src"
+  test_directory: "tests"
+
+  # Dependencies
+  prefer_crates:
+    - "anyhow"     # For error handling
+    - "thiserror"  # For custom error types
+    - "serde"      # For serialization
+    - "argh"       # For command-line parsing
+    - "nom"        # For lexer/parser
+
+  # Build and test
+  build_command: "cargo build"
+  test_command: "cargo test"
+
+  # File structure
+  file_requirements:
+    license_header: |
+        // This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+        // If a copy of the MPL was not distributed with this file,
+        // You can obtain one at <https://mozilla.org/MPL/2.0/>.
+    file_end: "\n// EOF"
+    formatting:
+      - "Run rustfmt before committing"
+      - "Remove trailing whitespace"
+      - "Use LF line endings"
+      - "No empty lines before EOF comment"
+
+  # Version control
+  branch_naming: "feature/description"
+  commit_message_format: |
+    <component>: <concise description>
+
+  # Version control workflow
+  version_control_workflow:
+    commit_process:
+      - "AI assistants MUST NOT make git commits directly"
+      - "The user reviews all code changes before committing"
+      - "The user handles all git operations (commits, pushes, etc.)"
+      - "The user may request a commit message suggestion from AI"
+      - "The user makes the final decision on what gets committed and when"
+
+  # Code review
+  require_review: true
+  review_checklist:
+    # CI Checks
+    - "All CI checks pass (run ./check.sh)"
+
+    # Code Quality
+    - "Code follows style guide"
+    - "Tests are included"
+    - "Documentation is complete"
+    - "Error handling is appropriate"
+    - "Performance is considered"
+
+    # Formatting
+    - "Code passes rustfmt"
+    - "No trailing whitespace"
+    - "License header present"
+    - "EOF comment present"
+
+    # Testing
+    - "All tests pass"
+    - "Test coverage is maintained"
+    - "New features have corresponding tests"
+
+    # Documentation
+    - "Public APIs are documented"
+    - "Examples are provided where appropriate"
+    - "Documentation is up to date"
+
+    # Error Handling
+    - "Error messages are clear and helpful"
+    - "Edge cases are handled appropriately"
+    - "Error types are appropriate for the context"
