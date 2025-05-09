@@ -31,7 +31,10 @@ jobs:
       uses: dtolnay/rust-toolchain@stable
       with:
         toolchain: stable
-        components: rustfmt, clippy
+        components: rustfmt, clippy, llvm-tools-preview
+
+    - name: Install cargo-llvm-cov
+      run: cargo install cargo-llvm-cov
 
     - name: Check syntax
       run: cargo check
@@ -47,6 +50,9 @@ jobs:
 
     - name: Check documentation
       run: RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
+
+    - name: Check code coverage
+      run: cargo llvm-cov --workspace --all-features --fail-uncovered-lines 0 --fail-uncovered-regions 0 --fail-uncovered-functions 0 --show-missing-lines
 
   book:
     runs-on: ubuntu-latest

@@ -23,6 +23,13 @@ sh -c "cd book && mdbook build"
 echo Running mdbook tests...
 sh -c "cd book && mdbook test"
 
+echo Running code coverage...
+cargo llvm-cov --workspace --all-features \
+    --fail-uncovered-lines 0 \
+    --fail-uncovered-regions 0 \
+    --fail-uncovered-functions 0 \
+    --show-missing-lines
+
 echo All done!
 
 # End of file
