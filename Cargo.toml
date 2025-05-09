@@ -7,3 +7,4 @@ license = "MPL-2.0"
 edition = "2024"
 
 [dependencies]
+thiserror = "2.0.12"
